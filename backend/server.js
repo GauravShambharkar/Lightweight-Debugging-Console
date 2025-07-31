@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+const { socket } = require("dgram");
 
 const app = express();
 app.use(cors());
@@ -10,22 +11,21 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*", // allow from all
+    origin: "*",
   },
 });
 
-io.on("connection", (socket) => {
-  
-  console.log("Client connected");
+io.on("connected", (socket) => {
+  console.log("server connected");
 
   socket.on("log", (data) => {
-    console.log("Log:", data);
-    // Broadcast logs to all connected clients (dev)
-    io.emit("consoleLog", data);
+    console.log("log ", data);
+
+    socket.emit("emit console log ", data);
   });
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
+  socket.on("disconected", () => {
+    console.log("disconnected");
   });
 });
 
