@@ -8,14 +8,16 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-const io = new server(server, {
+const io = new Server(server, {
   cors: {
     origin: "*", // allow from all
   },
 });
 
 io.on("connection", (socket) => {
+  
   console.log("Client connected");
+
   socket.on("log", (data) => {
     console.log("Log:", data);
     // Broadcast logs to all connected clients (dev)
