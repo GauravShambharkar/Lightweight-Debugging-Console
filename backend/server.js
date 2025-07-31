@@ -5,7 +5,9 @@ const { Server } = require("socket.io");
 
 const app = express();
 
-app.use(cors);
+app.use(express());
+
+app.use(cors());
 
 const server = http.createServer(app);
 
@@ -14,7 +16,6 @@ const io = new Server(server, {
     origin: "*",
   },
 });
-
 io.on("connection", (client) => {
   console.log("server is conneted ");
 
@@ -36,5 +37,5 @@ io.on("connection", (client) => {
 });
 
 server.listen(3000, () => {
-  console.log("Server running on ");
+  console.log("server is running on port 3000");
 });

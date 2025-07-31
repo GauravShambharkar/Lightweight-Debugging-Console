@@ -1,15 +1,11 @@
 import { useEffect } from "react";
-import io from "socket.io-client";
 import DevConsole from "./Components/DevConsole";
-
+import io from "socket.io-client";
 const socket = io("http://localhost:3000");
 
 function App() {
   useEffect(() => {
-    // const originalLog = console.log;
-    // const originalError = console.error;
-
-    console.log("from the console");
+    console.log("hellow");
 
     console.log = (...args) => {
       // originalLog(...args);
