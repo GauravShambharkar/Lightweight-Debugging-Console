@@ -2,30 +2,30 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
-const { socket } = require("dgram");
 
 const app = express();
 app.use(cors());
 
 const server = http.createServer(app);
-
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "*", // allow from all
   },
 });
 
-io.on("connected", (socket) => {
-  console.log("server connected");
+io.on("connection", (socket) => {
+  console.log("Client connected");
 
   socket.on("log", (data) => {
-    console.log("log ", data);
-
-    socket.emit("emit console log ", data);
+    console.log("Log:", data);
+    // Broadcast logs to all connected clients (dev)
+    io.emit("consoleLog", data);
   });
 
-  socket.on("disconected", () => {
-    console.log("disconnected");
+  socket.on("disconnect", () => {
+    console.log("*");
+    console.log("Client disconnected");
+    console.log("*");
   });
 });
 
