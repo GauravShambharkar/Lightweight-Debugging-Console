@@ -6,11 +6,11 @@ const socket = io("http://localhost:3000");
 
 function App() {
   useEffect(() => {
-    const originalLog = console.log;
-    const originalError = console.error;
+    // const originalLog = console.log;
+    // const originalError = console.error;
 
-    console.log('from the console');
-    
+    console.log("from the console");
+
     console.log = (...args) => {
       // originalLog(...args);
       socket.emit("log", { type: "log", message: args });
