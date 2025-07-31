@@ -4,31 +4,37 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
-app.use(cors());
+
+app.use(cors);
 
 const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: "*", // allow from all
+    origin: "*",
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("Client connected");
+io.on("connection", (client) => {
+  console.log("server is conneted ");
 
-  socket.on("log", (data) => {
+  client.on("log", (data) => {
     console.log("Log:", data);
     // Broadcast logs to all connected clients (dev)
     io.emit("consoleLog", data);
   });
 
-  socket.on("disconnect", () => {
-    console.log("*");
-    console.log("Client disconnected");
-    console.log("*");
+  client.on("error", (data) => {
+    console.log("error:", data);
+
+    io.emit("error:", data);
+  });
+
+  client.on("disconnect", () => {
+    console.log("server disconnected");
   });
 });
 
-server.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
+server.listen(3000, () => {
+  console.log("Server running on ");
 });
