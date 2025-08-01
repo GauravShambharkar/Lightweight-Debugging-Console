@@ -11,10 +11,18 @@ export default function DevConsole() {
   const [showConsole, setShowConsole] = useState(false);
 
   useEffect(() => {
-    socket.on("consoleLog", (data) => {
-      setLogs((prev) => [...prev, data]);
-    });
+    const handleNewLog = (data) => {
+      setLogs((prevLogs) => [...prevLogs, data]);
+    };
+
+    socket.on("consoleLog", handleNewLog);
+
+    return () => {
+      socket.off("consoleLog", handleNewLog); // remove listener on cleanup
+    };
   }, []);
+
+  socket.on();
 
   const handleMouseDown = (e) => {
     const startX = e.clientX - pos.current.x;

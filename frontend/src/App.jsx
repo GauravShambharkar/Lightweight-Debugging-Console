@@ -14,13 +14,12 @@ function App() {
 
     console.error = (...args) => {
       // originalError(...args);
-      socket.emit("log", { type: "error", message: args });
+      socket.emit("error", { type: "error", message: args });
     };
   }, []);
 
   return (
     <div>
-      <h1 className="text-2xl">App UI</h1>
       <DevConsole />
     </div>
   );
